@@ -39,8 +39,10 @@ describe("the contract's limits and this app's copy of them", () => {
   });
 
   it("agrees on every limit both sides declare", () => {
-    const declared = limits as unknown as Record<string, number>;
-    const shared = [...onChain.keys()].filter((name) => typeof declared[name] === "number");
+    const declared = limits as unknown as Record<string, number | bigint>;
+    const shared = [...onChain.keys()].filter(
+      (name) => typeof declared[name] === "number" || typeof declared[name] === "bigint"
+    );
 
     expect(
       shared.length,
