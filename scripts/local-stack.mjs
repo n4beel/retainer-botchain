@@ -59,6 +59,8 @@ spawn(
     "10",
     "--timestamp",
     String(startTimestamp),
+    "--block-time",
+    "1",
     "--silent",
   ],
   {
@@ -207,6 +209,7 @@ async function main() {
   console.log("6. Released agreement with pending for client");
   console.log("--------------------------------------------------------");
   console.log("Local stack ready!");
+  process.exit(0);
 }
 
 main().catch((err) => {

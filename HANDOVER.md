@@ -102,3 +102,16 @@ All items from `docs/specs/FEEDBACK-retainer.md` addressed and verified.
 
 **Console Errors:** 0  
 **Hydration Warnings:** 0
+
+## Feedback round 2
+
+1. **Local-stack autonomous mining (`--block-time 1`):**
+   - Configured `anvil` in `scripts/local-stack.mjs` with `--block-time 1` to produce blocks autonomously on a 1-second cadence.
+   - Seeded states across all 6 scenarios (active retainer with 4 draws and top-up, notice served and elapsed, notice served with 3 days left, provider retainer with 1 draw, reclaimed retainer, released retainer with client refund) verified.
+   - Final chain timestamp matches wall clock (`diff: 0s`, within 120s limit).
+   - Confirmed autonomous block progression without manual mining:
+     ```bash
+     b1=$(cast block-number --rpc-url http://127.0.0.1:8714); sleep 3; b2=$(cast block-number --rpc-url http://127.0.0.1:8714); echo "$b1 -> $b2"
+     # Output: 101 -> 104
+     ```
+
