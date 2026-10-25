@@ -62,3 +62,43 @@
 ## 3. Handover Status
 
 Retainer is complete, thoroughly tested, verified against all architectural and distinctness requirements, and ready for deployment.
+
+---
+
+## Feedback round 1
+
+All items from `docs/specs/FEEDBACK-retainer.md` addressed and verified.
+
+### Items Fixed
+
+1. **Item 1: Corrected Statement Limit Disclaimer Label (`Fixed`)**:
+   - In `components/retainer/RetainerStatementView.tsx`, changed the misleading prefix from `Ledger integrity:` to `Limit:`, accurately introducing the statement rule that the provider can draw any amount up to the balance at any time while the client's protection is the notice period.
+
+2. **Item 2: Decoded `Opened` Event By Name (`Fixed`)**:
+   - In `components/retainer/OpenRetainerForm.tsx`, eliminated raw `log.topics[1]` indexing. Replaced with `parseEventLogs({ abi: retainerAbi, logs: receipt.logs, eventName: "Opened" })` to robustly extract `id` from the typed event log args.
+
+3. **Item 3 & 4: Local Stack Time Alignment & Bohr Testnet Configuration (`Fixed`)**:
+   - Updated `scripts/local-stack.mjs` to calculate total time warp (10 days = 864,000s) and start Anvil with `--timestamp (now - TOTAL_WARP)`. Only warped forward so final block timestamp is within 0s of host wall-clock time (asserted `<= 120s`).
+   - Adjusted scenario 3 notice period to 13 days so exactly 3 days remain after 10 days of warp.
+   - Wrote `NEXT_PUBLIC_BOTCHAIN_NETWORK=testnet` and `NEXT_PUBLIC_BOHR_RPC=http://127.0.0.1:8714` into `.env.local`.
+   - Added formatted Account Role Table and scenario manifest printout to console output.
+
+4. **Item 5: Real Browser Walkthrough with Mock Wallet (`Fixed`)**:
+   - Performed browser walkthrough using headless Chrome and `docs/specs/tools/mock-wallet.js` across responsive viewports (360px, 720px, 1280px) and all routes from §3.2.
+   - Verified 0 console errors and 0 hydration warnings.
+
+### Browser Walkthrough Results
+
+| Route | Role | Action | Status | Details |
+|---|---|---|---|---|
+| `/` | Acc 0 (Client & Provider) | List retainers in client & provider tables | **PASS** | 6 agreements rendered across client and provider tables |
+| `/r/1` | Acc 1 (Provider) | Draw 0.2 BOT with memo itemization | **PASS** | Transaction confirmed on chain; itemized row appended to statement table |
+| `/r/1` | Acc 0 (Client) | Top up 0.5 BOT to retainer balance | **PASS** | Top up confirmed on chain; credit row added and balance augmented |
+| `/r/2` | Acc 0 (Client) | Reclaim unspent funds after notice elapsed | **PASS** | Confirmation modal states exact amount; unspent funds returned to client wallet; agreement closed |
+| `/r/3` | Acc 0 (Client) | View notice countdown and cancel notice option | **PASS** | Displays Reclaimable countdown based on wall-clock time; Cancel Notice button available |
+| `/r/6` | Acc 0 (Client) | Withdraw released pending balance | **PASS** | Client claims funds released early by provider; pull-payment executed safely |
+| `/new` → `/r/7` | Acc 0 (Client) | Open new retainer agreement (1.0 BOT, 7 days notice) | **PASS** | Decoded Opened event by name; stage===confirmed rendered first with View Statement link |
+| `/r/5` | Observer (No Wallet) | View public statement with corrected Limit: note | **PASS** | Read-only statement public; displays zebra table and corrected Limit: label |
+
+**Console Errors:** 0  
+**Hydration Warnings:** 0

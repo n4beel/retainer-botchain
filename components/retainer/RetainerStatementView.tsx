@@ -416,7 +416,7 @@ export default function RetainerStatementView({ id }: RetainerStatementViewProps
           />
 
           <div className="p-3 bg-[#282828] border border-[#4A4640] rounded-xs text-[11px] text-[#B3A99A] leading-relaxed">
-            <span className="text-[#EDE6DC] font-semibold">Ledger integrity: </span>
+            <span className="text-[#EDE6DC] font-semibold">Limit: </span>
             The provider can draw any amount up to the balance at any time. The client's protection
             is the notice period, not a veto.
           </div>

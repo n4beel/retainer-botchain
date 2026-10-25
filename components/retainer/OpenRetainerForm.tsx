@@ -3,7 +3,7 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { isAddress, parseEther, type Address, type Hex } from "viem";
+import { isAddress, parseEther, parseEventLogs, type Address, type Hex } from "viem";
 import {
   useAccount,
   useChainId,
@@ -72,16 +72,17 @@ export default function OpenRetainerForm() {
       setStage("confirmed");
 
       // Extract agreement id from Opened event
-      for (const log of receipt.logs) {
-        try {
-          if (log.topics[0] && log.topics[1]) {
-            const id = BigInt(log.topics[1]);
-            setCreatedId(id);
-            break;
-          }
-        } catch {
-          // continue
+      try {
+        const parsed = parseEventLogs({
+          abi: retainerAbi,
+          logs: receipt.logs,
+          eventName: "Opened",
+        });
+        if (parsed.length > 0 && parsed[0].args.id !== undefined) {
+          setCreatedId(parsed[0].args.id);
         }
+      } catch {
+        // continue
       }
 
       toast(
