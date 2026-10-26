@@ -11,6 +11,15 @@
   --accent-ink: #1E1308;
   --credit: #8CCB9B;
   --debit: #E8A27E;
+
+  /* Shared component tokens (ConnectButton, TxStatus, Toast, Badge) */
+  --bg-elevated: #242424;
+  --border-default: #4A4640;
+  --text-secondary: #DCD4C8;
+  --text-tertiary: #A69B8C;
+  --success: #8CCB9B;
+  --danger: #E87E7E;
+  --warning: #D4895C;
 }
 
 body {

@@ -132,3 +132,18 @@ All items from `docs/specs/FEEDBACK-retainer.md` addressed and verified.
      - `/r/1` (Retainer Detail): 200 OK — contains contract link, `https://botchain.ai`, and `https://scan.botchain.ai`.
      - `/nonexistent` (Not Found 404): 404 Not Found — contains contract link, `https://botchain.ai`, and `https://scan.botchain.ai`.
 
+## Feedback round 4
+
+- **Shared CSS Tokens & Wallet Dropdown Grounding (Item 1):**
+  - Defined all missing tokens in `app/globals.css`:
+    - `--bg-elevated: #242424` (dark ledger elevated ground for wallet dropdowns and popovers)
+    - `--border-default: #4A4640` (ledger boundary border)
+    - `--text-secondary: #DCD4C8` (cream secondary text on elevated surface, >10:1 contrast)
+    - `--text-tertiary: #A69B8C` (muted parchment text, >5.5:1 contrast)
+    - `--success: #8CCB9B` (credit green, >8:1 contrast)
+    - `--danger: #E87E7E` (debit red danger, >5.8:1 contrast)
+    - `--warning: #D4895C` (warm brass warning, >6.5:1 contrast)
+  - All token contrast ratios exceed 4.5:1 WCAG AA.
+  - Added unit test `test/lint/tokens.test.ts` verifying all `var(--x)` without fallback in `app/` and `components/` are defined in `globals.css` or next/font.
+  - Confirmed `python3 scripts/check-tokens.py retainer` exits 0 with 0 undefined tokens.
+
