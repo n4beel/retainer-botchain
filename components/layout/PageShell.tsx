@@ -7,6 +7,7 @@ import ConnectButton from "@/components/ui/ConnectButton";
 import NetworkBadge from "@/components/botchain/NetworkBadge";
 import BuiltOnBotChain from "@/components/botchain/BuiltOnBotChain";
 import { app } from "@/lib/app-config";
+import { footerLinks } from "@/lib/botchain/chain";
 
 export interface NavItem {
   href: string;
@@ -32,6 +33,7 @@ export default function PageShell({
   description,
 }: PageShellProps) {
   const currentPath = usePathname();
+  const { site, explorer } = footerLinks();
 
   return (
     <div className="flex min-h-[100dvh] flex-col bg-[#2B2B2B] text-[#EDE6DC]">
@@ -118,8 +120,26 @@ export default function PageShell({
               The client's protection is the notice period, not a veto.
             </p>
           </div>
-          <div className="flex-shrink-0">
-            <BuiltOnBotChain />
+          <div className="flex flex-wrap items-center gap-3 sm:gap-4 font-mono text-[11px] text-[#B3A99A]">
+            <BuiltOnBotChain className="hover:text-[#D4895C] transition-colors" />
+            <span className="text-[#4A4640]">•</span>
+            <a
+              href={site}
+              target="_blank"
+              rel="noreferrer"
+              className="hover:text-[#D4895C] transition-colors"
+            >
+              botchain.ai
+            </a>
+            <span className="text-[#4A4640]">•</span>
+            <a
+              href={explorer}
+              target="_blank"
+              rel="noreferrer"
+              className="hover:text-[#D4895C] transition-colors"
+            >
+              Explorer
+            </a>
           </div>
         </div>
       </footer>
